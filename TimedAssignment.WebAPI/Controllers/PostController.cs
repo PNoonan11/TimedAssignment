@@ -34,11 +34,32 @@ namespace TimedAssignment.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPosts()
         {
-            var posts = await _postService.GetAllPostsAsync();
-            return Ok(posts);
+            var postsToUser = await _postService.GetAllPostsAsync();
+            return Ok(postsToUser);
 
         }
 
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetPostById([FromRoute] int id)
+        {
+            var postsToUser = await _postService.GetPostByIdAsync(id);
+            return postsToUser is not null ? Ok(postsToUser) : NotFound();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdatePostById([FromBody] PostUpdate postToUpdate)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return await _postService.UpdatePostAsync(postToUpdate) ? Ok("Your post has been updated!") : BadRequest("Your post could not be updated. ");
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteNote([FromRoute] int id)
+        {
+            return await _postService.DeletePostAsync(id) ? Ok($"The post with id:{id} has been deleted successfully.") : BadRequest($"The post with the id:{id} could not be deleted.");
+        }
 
 
     }
