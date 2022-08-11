@@ -11,5 +11,7 @@ namespace TimedAssignment.Data
         public DbSet<PostEntity> Posts { get; set; }
         public DbSet<ReplyEntity> Replies { get; set; }
 
+
+
     }
 }

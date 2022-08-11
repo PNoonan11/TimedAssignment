@@ -22,5 +22,6 @@ namespace TimedAssignment.Data.Entities
         [Required]
         [ForeignKey("CommentEntity")]
         public int ReplyId { get; set; }
+        public CommentEntity CommentEntity { get; set; }
     }
 }
