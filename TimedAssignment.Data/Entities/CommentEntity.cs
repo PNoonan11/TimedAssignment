@@ -16,6 +16,6 @@ namespace TimedAssignment.Data.Entities
         public string UserName { get; set; }
         [ForeignKey("PostEntity")]
         public int CommentId { get; set; }
-        
+
     }
 }
