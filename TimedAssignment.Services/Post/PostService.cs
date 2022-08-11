@@ -29,6 +29,15 @@ namespace TimedAssignment.Services.Post
             return numberOfChanges == 1;
 
         }
+
+        public async Task<IEnumerable<PostListItem>> GetAllNotesAsync()
+        {
+            var posts = _dbContext.Posts.ToListAsync();
+
+
+
+            return posts;
+        }
         //Gets post from database using the ID. 
         public async Task<PostDetail> GetPostByIdAsync(int postId)
         {
