@@ -7,15 +7,14 @@
       "commands": [
         "dotnet-ef"
       ]
-<<<<<<< HEAD
-=======
+
     },
     "dotnet-aspnet-codegenerator": {
       "version": "6.0.8",
       "commands": [
         "dotnet-aspnet-codegenerator"
       ]
->>>>>>> e7764ac48a02ace0da19cbb4ddd2ecf6bbb03409
+
     }
   }
 }

@@ -1,21 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 using TimedAssignment.Data;
-<<<<<<< HEAD
+
+using TimedAssignment.Services.Post;
+
+
 using TimedAssignment.Services.Reply;
-=======
+
 using TimedAssignment.Services.Comment;
 
->>>>>>> e7764ac48a02ace0da19cbb4ddd2ecf6bbb03409
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IReplyService, ReplyService>();
 
+
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<ICommentService, CommentService>();
 
+builder.Services.AddScoped<IPostService, PostService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
