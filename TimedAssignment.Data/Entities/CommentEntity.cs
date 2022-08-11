@@ -11,7 +11,7 @@ namespace TimedAssignment.Data.Entities
         [Required]
         [MaxLength(128)]
         public string Text { get; set; }
-        public List<string> Replies { get; set; }
+        public List<ReplyEntity> Replies { get; set; }
         [Required]
         public string UserName { get; set; }
         [ForeignKey("PostEntity")]
