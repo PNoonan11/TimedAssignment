@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TimedAssignment.Data;
+using TimedAssignment.Services.Comment;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 
 builder.Services.AddControllers();
