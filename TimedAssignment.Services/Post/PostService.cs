@@ -15,13 +15,15 @@ namespace TimedAssignment.Services.Post
 
 
         // CRUD Methods
-        public async Task<bool> CreatePostAsync(PostCreate request)
+
+        //Create a new post.
+        public async Task<bool> CreatePostAsync(PostCreate newPost)
         {
             var postEntity = new PostEntity
             {
-                Title = request.Title,
-                Text = request.Text,
-                UserName = request.UserName
+                Title = newPost.Title,
+                Text = newPost.Text,
+                UserName = newPost.UserName
             };
             _dbContext.Posts.Add(postEntity);
 
@@ -29,14 +31,23 @@ namespace TimedAssignment.Services.Post
             return numberOfChanges == 1;
 
         }
-
-        public async Task<IEnumerable<PostListItem>> GetAllNotesAsync()
+        //Gets all posts from the database.
+        public async Task<IEnumerable<PostListItem>> GetAllPostsAsync()
         {
-            var posts = _dbContext.Posts.ToListAsync();
-
-
+            var posts = await _dbContext.Posts
+                    .Select(entity => new PostListItem
+                    {
+                        Id = entity.Id,
+                        Title = entity.Title,
+                        Text = entity.Text,
+                        UserName = entity.UserName
+                    })
+                    .ToListAsync();
 
             return posts;
+
+
+
         }
         //Gets post from database using the ID. 
         public async Task<PostDetail> GetPostByIdAsync(int postId)
