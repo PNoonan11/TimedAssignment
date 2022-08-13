@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace TimedAssignment.Models.Comment
 {
-    public class CommentCreate
-    { 
+    public class CommentUpdate
+    {
         [Required]
         public int Id { get; set; }
         [Required]
-        [MaxLength (180)]
+        [MaxLength(180)]
         public string Text { get; set; }
         [Required]
         public string UserName { get; set; }
-        public DateTime dateTime { get; set; }
         
-
-
     }
 }
