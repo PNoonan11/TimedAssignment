@@ -12,5 +12,6 @@ namespace TimedAssignment.Data.Entities
         public string Text { get; set; }
         public string UserName { get; set; }
         public List<CommentEntity> Comments { get; set; }
+        public DateTime? PostCreatedTimeDate { get; set; }
     }
 }

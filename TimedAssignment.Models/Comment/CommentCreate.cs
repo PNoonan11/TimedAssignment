@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 namespace TimedAssignment.Models.Comment
 {
     public class CommentCreate
-    { 
-        [Required]
-        public int Id { get; set; }
+    {
+
         [Required]
         public int Id { get; set; }
         [Required]

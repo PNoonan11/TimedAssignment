@@ -10,6 +10,9 @@ namespace TimedAssignment.Models.Maps
         {
             CreateMap<PostEntity, PostDetail>();
             CreateMap<PostEntity, PostListItem>();
+
+            CreateMap<PostCreate, PostEntity>()
+                .ForMember(post => post.PostCreatedTimeDate, opt => opt.MapFrom(scr => DateTimeOffset.Now));
         }
     }
 }

@@ -54,7 +54,7 @@ namespace TimedAssignment.Services.Post
                                 .FirstOrDefaultAsync(e => e.Id == postId);
             return postEntity is null ? null : _mapper.Map<PostDetail>(postEntity);
         }
-
+        //Make updates to a post.
         public async Task<bool> UpdatePostAsync(PostUpdate request)
         {
             // Find the note by id. 
@@ -65,13 +65,13 @@ namespace TimedAssignment.Services.Post
             postEntity.Text = request.Text;
             postEntity.UserName = request.UserName;
 
-            //Save the changes to the database and see how many rows were added.
+
             var numberOfChanges = await _dbContext.SaveChangesAsync();
 
-            // numberOfChanges is stated to be equal to 1 because only one row is updated
+
             return numberOfChanges == 1;
         }
-
+        //Deletes post using PostId
         public async Task<bool> DeletePostAsync(int postId)
         {
             //Find the post by  Id
