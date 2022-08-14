@@ -9,10 +9,14 @@ namespace TimedAssignment.Models.Comment
     public class CommentCreate
     {
         [Required]
-        [MaxLength (180)]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(180)]
         public string Text { get; set; }
         [Required]
         public string UserName { get; set; }
+        public DateTime dateTime { get; set; }
+
 
 
     }

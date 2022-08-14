@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TimedAssignment.Models.Post;
+using TimedAssignment.Services.Pagination;
 using TimedAssignment.Services.Post;
 
 namespace TimedAssignment.WebAPI.Controllers
@@ -32,9 +33,9 @@ namespace TimedAssignment.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts([FromQuery] PagedResponse filter)
         {
-            var postsToUser = await _postService.GetAllPostsAsync();
+            var postsToUser = await _postService.GetAllPostsAsync(filter, HttpContext);
             return Ok(postsToUser);
 
         }
