@@ -1,16 +1,22 @@
+using System.Text.Json;
+using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using TimedAssignment.Data;
 using TimedAssignment.Data.Entities;
 using TimedAssignment.Models.Post;
+using TimedAssignment.Services.Pagination;
 
 namespace TimedAssignment.Services.Post
 {
     public class PostService : IPostService
     {
+        private readonly IMapper _mapper;
         private readonly ApplicationDbContext _dbContext;
-        public PostService(ApplicationDbContext dbContext)
+        public PostService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
 
@@ -19,12 +25,7 @@ namespace TimedAssignment.Services.Post
         //Create a new post.
         public async Task<bool> CreatePostAsync(PostCreate newPost)
         {
-            var postEntity = new PostEntity
-            {
-                Title = newPost.Title,
-                Text = newPost.Text,
-                UserName = newPost.UserName
-            };
+            var postEntity = _mapper.Map<PostCreate, PostEntity>(newPost);
             _dbContext.Posts.Add(postEntity);
 
             var numberOfChanges = await _dbContext.SaveChangesAsync();
@@ -32,21 +33,18 @@ namespace TimedAssignment.Services.Post
 
         }
         //Gets all posts from the database.
-        public async Task<IEnumerable<PostListItem>> GetAllPostsAsync()
+        public async Task<IEnumerable<PostListItem>> GetAllPostsAsync(PagedResponse _filter, HttpContext httpContext)
         {
-            var posts = await _dbContext.Posts
-                    .Select(entity => new PostListItem
-                    {
-                        Id = entity.Id,
-                        Title = entity.Title,
-                        Text = entity.Text,
-                        UserName = entity.UserName
-                    })
-                    .ToListAsync();
+            var posts = _dbContext.Posts.Select(entity => _mapper.Map<PostListItem>(entity));
 
-            return posts;
+            var paginationMetadata = new PageMetadata(posts.Count(), _filter.PageNumber, _filter.PageSize);
+            httpContext.Response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationMetadata));
 
+            var items = await posts.Skip((_filter.PageNumber - 1) * _filter.PageSize)
+                .Take(_filter.PageSize)
+                .ToListAsync();
 
+            return items;
 
         }
         //Gets post from database using the ID. 
@@ -54,13 +52,7 @@ namespace TimedAssignment.Services.Post
         {
             var postEntity = await _dbContext.Posts
                                 .FirstOrDefaultAsync(e => e.Id == postId);
-            return postEntity is null ? null : new PostDetail
-            {
-                Id = postEntity.Id,
-                Title = postEntity.Title,
-                Text = postEntity.Text,
-                UserName = postEntity.UserName
-            };
+            return postEntity is null ? null : _mapper.Map<PostDetail>(postEntity);
         }
 
         public async Task<bool> UpdatePostAsync(PostUpdate request)
